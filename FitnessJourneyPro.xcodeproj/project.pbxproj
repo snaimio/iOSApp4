@@ -6,8 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		196816132FEC767500102D91 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 196816112FEC767500102D91 /* LICENSE */; };
+		196816142FEC767500102D91 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 196816122FEC767500102D91 /* README.md */; };
+		196816162FEC769200102D91 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 196816152FEC769200102D91 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		19DBA1072FEC360400A4DB94 /* FitnessJourneyPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FitnessJourneyPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		196816112FEC767500102D91 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		196816122FEC767500102D91 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		196816152FEC769200102D91 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		19DBA1072FEC360400A4DB94 /* FitnessJourneyPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = FitnessJourneyPro.app; path = "/Users/tanjinsufi/Documents/iOS2026/Assignments/Assignment_6/FitnessJourneyPro/build/Debug-iphoneos/FitnessJourneyPro.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -46,16 +55,10 @@
 			isa = PBXGroup;
 			children = (
 				19DBA1092FEC360400A4DB94 /* FitnessJourneyPro */,
-				19DBA1082FEC360400A4DB94 /* Products */,
+				196816152FEC769200102D91 /* .gitignore */,
+				196816112FEC767500102D91 /* LICENSE */,
+				196816122FEC767500102D91 /* README.md */,
 			);
-			sourceTree = "<group>";
-		};
-		19DBA1082FEC360400A4DB94 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				19DBA1072FEC360400A4DB94 /* FitnessJourneyPro.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -108,7 +111,7 @@
 			mainGroup = 19DBA0FE2FEC360400A4DB94;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 19DBA1082FEC360400A4DB94 /* Products */;
+			productRefGroup = 19DBA0FE2FEC360400A4DB94;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -122,6 +125,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				196816162FEC769200102D91 /* .gitignore in Resources */,
+				196816132FEC767500102D91 /* LICENSE in Resources */,
+				196816142FEC767500102D91 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

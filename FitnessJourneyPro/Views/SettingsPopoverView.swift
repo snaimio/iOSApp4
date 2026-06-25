@@ -280,7 +280,7 @@ struct SettingsPopoverView: View {
                             .foregroundStyle(.secondary)
                     }
                     
-                    // MARK: - Reset Onboarding Button - ✅ FIXED
+                    // MARK: - Reset Onboarding Button 
                     Button(action: resetOnboarding) {
                         HStack {
                             Label("Show Onboarding Again", systemImage: "arrow.counterclockwise.circle.fill")

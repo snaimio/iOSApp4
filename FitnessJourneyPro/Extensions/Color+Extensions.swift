@@ -1,11 +1,14 @@
-//
+//  =======================================
+
 //  Color+Extensions.swift
 //  FitnessJourneyPro
-//
-//  Created by [Your Name] on 2026-06-23.
+
+//  Created by Sheikh Naim on 2026-06-23.
+
 //  Color extensions for consistent theming
 //  Topics: Color, View Modifiers
-//
+
+//  =======================================
 
 import SwiftUI
 

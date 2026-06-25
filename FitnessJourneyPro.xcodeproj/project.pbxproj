@@ -16,7 +16,7 @@
 		196816112FEC767500102D91 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		196816122FEC767500102D91 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		196816152FEC769200102D91 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		19DBA1072FEC360400A4DB94 /* FitnessJourneyPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = FitnessJourneyPro.app; path = "/Users/tanjinsufi/Documents/iOS2026/Assignments/Assignment_6/FitnessJourneyPro/build/Debug-iphoneos/FitnessJourneyPro.app"; sourceTree = "<absolute>"; };
+		19E812182FEC795F0051D202 /* FitnessJourneyPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FitnessJourneyPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -58,6 +58,7 @@
 				196816152FEC769200102D91 /* .gitignore */,
 				196816112FEC767500102D91 /* LICENSE */,
 				196816122FEC767500102D91 /* README.md */,
+				19E812182FEC795F0051D202 /* FitnessJourneyPro.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,7 +84,7 @@
 			packageProductDependencies = (
 			);
 			productName = FitnessJourneyPro;
-			productReference = 19DBA1072FEC360400A4DB94 /* FitnessJourneyPro.app */;
+			productReference = 19E812182FEC795F0051D202 /* FitnessJourneyPro.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

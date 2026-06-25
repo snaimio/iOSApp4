@@ -1,10 +1,12 @@
-//
+//  ======================================
+
 //  OnboardingItem.swift
 //  FitnessJourneyPro
-//
+
 //  Created by Sheikh Naim on 2026-06-24.
 //  Onboarding data model
-//
+
+//  ======================================
 
 import SwiftUI
 

@@ -1,11 +1,13 @@
-//
+//  ==========================================================================
+
 //  FitnessJourneyProApp.swift
 //  FitnessJourneyPro
-//
+
 //  Created by Sheikh Naim on 2026-06-23.
-//  Assignment: iOSApp4 - iPad Fitness Tracker
+
 //  Features: @main, @StateObject, EnvironmentObject, AppDelegate, Onboarding
-//
+
+//  ==========================================================================
 
 import SwiftUI
 

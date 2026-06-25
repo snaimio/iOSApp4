@@ -1,12 +1,15 @@
-//
+//  ============================================
+
 //  AppDelegate.swift
 //  FitnessJourneyPro
-//
-//  Created by [Your Name] on 2026-06-23.
+
+//  Created by Sheikh Naim on 2026-06-23.
+
 //  App Delegate for handling notifications
 //  Features: UNUserNotificationCenterDelegate
 //  Topics: App Delegate, Notification Handling
-//
+
+//  ============================================
 
 import UIKit
 import UserNotifications

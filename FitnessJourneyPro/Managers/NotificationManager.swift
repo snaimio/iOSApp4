@@ -1,13 +1,15 @@
-//
+//  ===============================================================
+
 //  NotificationManager.swift
 //  FitnessJourneyPro
-//
+
 //  Created by Sheikh Naim on 2026-06-23.
-//  Assignment: iOSApp4 - Notification Handling
+
+
 //  Features: UNUserNotificationCenter, Notifications, Permissions
 //  Topics: Notifications, Permissions, Background Tasks
-//  MARK: - NotificationManager - Singleton pattern for managing all notification-related functionality
-//
+
+//  ===============================================================
 
 import Foundation
 import UserNotifications

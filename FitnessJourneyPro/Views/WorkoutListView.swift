@@ -1,22 +1,37 @@
-//
+//  =====================================
 //  WorkoutListView.swift
 //  FitnessJourneyPro
-//
+
 //  Created by Sheikh Naim on 2026-06-23.
-//  🎨 Enhanced with beautiful list design
-//  🔧 Fixed: Removed duplicate search icon
-//
+
+//  =====================================
 
 import SwiftUI
 
+// MARK: - WorkoutListView
+/// Sidebar list view showing all workouts with filtering and search capabilities
+/// Displays workouts in a list with swipe actions and selection handling
 struct WorkoutListView: View {
+    // MARK: - Environment Objects
+    /// Access to the workout data store
     @EnvironmentObject var workoutStore: WorkoutStore
+    
+    // MARK: - Bindings
+    /// Currently selected workout in the sidebar
     @Binding var selectedWorkout: Workout?
+    
+    /// Controls the add workout sheet presentation
     @Binding var showingAddWorkout: Bool
     
+    // MARK: - State Variables
+    /// Text for searching workouts
     @State private var searchText = ""
+    
+    /// Controls the filters sheet presentation
     @State private var showingFilters = false
     
+    // MARK: - Computed Properties
+    /// Returns filtered workouts based on search text and store filters
     private var filteredWorkouts: [Workout] {
         if searchText.isEmpty {
             return workoutStore.filteredWorkouts
@@ -27,9 +42,11 @@ struct WorkoutListView: View {
         }
     }
     
+    // MARK: - Body
     var body: some View {
         VStack(spacing: 0) {
             // MARK: - Enhanced Stats Bar
+            /// Quick statistics summary at the top of the list
             HStack(spacing: 16) {
                 EnhancedQuickStat(
                     value: "\(workoutStore.todayWorkouts.count)",
@@ -63,6 +80,7 @@ struct WorkoutListView: View {
             .background(Color(.secondarySystemBackground))
             
             // MARK: - List with Search
+            /// Main workout list with search and selection
             List(filteredWorkouts, id: \.id, selection: $selectedWorkout) { workout in
                 WorkoutRow(workout: workout)
                     .tag(workout)
@@ -79,6 +97,7 @@ struct WorkoutListView: View {
                         }
                     }
                     .swipeActions(edge: .trailing) {
+                        // Delete workout
                         Button(role: .destructive) {
                             withAnimation {
                                 workoutStore.delete(workout)
@@ -90,6 +109,7 @@ struct WorkoutListView: View {
                             Label("Delete", systemImage: "trash")
                         }
                         
+                        // Toggle completion
                         Button {
                             workoutStore.toggleCompletion(workout)
                         } label: {
@@ -102,16 +122,13 @@ struct WorkoutListView: View {
                     }
             }
             .listStyle(.plain)
-            // ✅ FIXED: Custom search with no duplicate icon
             .searchable(
                 text: $searchText,
                 placement: .navigationBarDrawer(displayMode: .always),
                 prompt: "Search workouts..."
             )
-            // ✅ HIDE the search icon in navigation bar
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    // Empty view to hide the search icon
                     EmptyView()
                 }
             }
@@ -147,6 +164,7 @@ struct WorkoutListView: View {
 }
 
 // MARK: - Enhanced Quick Stat
+/// Reusable quick statistics display for the stats bar
 struct EnhancedQuickStat: View {
     let value: String
     let label: String
@@ -171,6 +189,7 @@ struct EnhancedQuickStat: View {
 }
 
 // MARK: - Filter View
+/// Filter sheet for category, intensity, and completion filters
 struct FilterView: View {
     @EnvironmentObject var workoutStore: WorkoutStore
     @Binding var isPresented: Bool

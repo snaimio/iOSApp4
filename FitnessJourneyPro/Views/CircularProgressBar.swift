@@ -1,16 +1,18 @@
-//
+//  ==================================================
 //  CircularProgressBar.swift
 //  FitnessJourneyPro
-//
+
 //  Created by [Your Name] on 2026-06-23.
+
 //  Circular progress ring with gradient
 //  Topics: Trim, Stroke, AngularGradient, Animations
-//
+//  ==================================================
 
 import SwiftUI
 
 // MARK: - CircularProgressBar
 /// Circular progress ring with gradient and percentage label
+/// Uses trim to create a circular progress effect with animated transitions
 struct CircularProgressBar: View {
     
     // MARK: - Properties
@@ -36,6 +38,7 @@ struct CircularProgressBar: View {
     var body: some View {
         ZStack {
             // MARK: - Background Circle
+            /// Static background circle behind the progress ring
             Circle()
                 .stroke(
                     backgroundColor,
@@ -43,6 +46,8 @@ struct CircularProgressBar: View {
                 )
             
             // MARK: - Progress Circle (Animated)
+            /// Progress ring that animates when the value changes
+            /// Uses trim to control the filled portion of the circle
             Circle()
                 .trim(from: 0, to: min(progress, 1.0))
                 .stroke(
@@ -57,10 +62,11 @@ struct CircularProgressBar: View {
                         lineCap: .round
                     )
                 )
-                .rotationEffect(.degrees(-90))
+                .rotationEffect(.degrees(-90)) // Start from top (12 o'clock)
                 .animation(.easeInOut(duration: 0.8), value: progress)
             
             // MARK: - Percentage Label
+            /// Displays the progress percentage in the center
             if showLabel {
                 Text("\(Int(progress * 100))%")
                     .font(.title2.bold())

@@ -1,5 +1,4 @@
 //  =======================================
-
 //  Color+Extensions.swift
 //  FitnessJourneyPro
 
@@ -7,12 +6,12 @@
 
 //  Color extensions for consistent theming
 //  Topics: Color, View Modifiers
-
 //  =======================================
 
 import SwiftUI
 
 // MARK: - Color Extensions
+/// Extends SwiftUI Color with custom theme colors for consistent app styling
 extension Color {
     /// Background color for workout cards
     static let workoutBackground = Color(.systemGroupedBackground)
@@ -28,6 +27,7 @@ extension Color {
 }
 
 // MARK: - View Extensions
+/// Extends View with reusable styling modifiers
 extension View {
     /// Applies consistent card styling to any view
     /// - Returns: A view with card styling applied

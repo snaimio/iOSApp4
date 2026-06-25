@@ -1,38 +1,53 @@
-//
+//  ==============================================================================
 //  SettingsPopoverView.swift
 //  FitnessJourneyPro
-//
+
 //  Created by Sheikh Naim on 2026-06-23.
-//  🎨 Enhanced with beautiful settings design
-//  Assignment: iOSApp4 - Settings Popover View
+
+//  Enhanced with beautiful settings design
+//  Settings Popover View
 //  Features: @AppStorage, Picker, Slider, Toggle, Notifications, Onboarding Reset
 //  Topics: Settings, Preferences, Persistence, Notifications
-//
+//  ==============================================================================
 
 import SwiftUI
 import UserNotifications
 
 // MARK: - SettingsPopoverView
+/// Main settings view for managing app preferences and user settings
+/// Provides controls for appearance, goals, notifications, and data management
 struct SettingsPopoverView: View {
     
     // MARK: - Environment Objects
+    /// Access to user settings and preferences
     @EnvironmentObject var settingsStore: SettingsStore
+    
+    /// Access to the workout data store
     @EnvironmentObject var workoutStore: WorkoutStore
     
     // MARK: - Bindings
+    /// Controls whether the settings view is presented
     @Binding var isPresented: Bool
     
     // MARK: - State Variables
+    /// Controls the test notification alert
     @State private var showingTestAlert = false
+    
+    /// Message displayed in notification alerts
     @State private var testAlertMessage = ""
+    
+    /// Indicates if a notification test is in progress
     @State private var isTesting = false
-    @State private var isResetting = false  // ✅ ADDED
+    
+    /// Prevents multiple reset operations from running simultaneously
+    @State private var isResetting = false
     
     // MARK: - Body
     var body: some View {
         NavigationStack {
             List {
                 // MARK: - Appearance Section
+                /// Theme selection with visual buttons for Auto/Light/Dark
                 Section {
                     HStack(spacing: 12) {
                         ThemeOptionButton(
@@ -72,6 +87,7 @@ struct SettingsPopoverView: View {
                 }
                 
                 // MARK: - Goals Section
+                /// User fitness goals configuration
                 Section {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
@@ -121,6 +137,7 @@ struct SettingsPopoverView: View {
                 }
                 
                 // MARK: - Notifications Section
+                /// Notification settings and test controls
                 Section {
                     Toggle("Enable Notifications", isOn: $settingsStore.notificationsEnabled)
                         .onChange(of: settingsStore.notificationsEnabled) { oldValue, newValue in
@@ -166,6 +183,7 @@ struct SettingsPopoverView: View {
                             }
                         }
                         
+                        // MARK: - Test Notification Button
                         Button(action: testNotification) {
                             HStack {
                                 Label("Test Notification", systemImage: "bell.fill")
@@ -183,6 +201,7 @@ struct SettingsPopoverView: View {
                         }
                         .disabled(isTesting)
                         
+                        // MARK: - Schedule Demo Reminder Button
                         Button(action: scheduleDemoReminder) {
                             HStack {
                                 Label("Schedule Demo Reminder", systemImage: "clock.badge")
@@ -194,6 +213,7 @@ struct SettingsPopoverView: View {
                             }
                         }
                         
+                        // MARK: - Clear All Notifications Button
                         Button(action: clearNotifications) {
                             HStack {
                                 Label("Clear All Notifications", systemImage: "bell.slash.fill")
@@ -260,6 +280,7 @@ struct SettingsPopoverView: View {
                             .foregroundStyle(.secondary)
                     }
                     
+                    // MARK: - Reset Onboarding Button
                     Button(action: resetOnboarding) {
                         HStack {
                             Label("Show Onboarding Again", systemImage: "arrow.counterclockwise.circle.fill")
@@ -271,7 +292,7 @@ struct SettingsPopoverView: View {
                         }
                     }
                     
-                    // MARK: - Reset Data Button - ✅ FIXED
+                    // MARK: - Reset Data Button
                     Button(action: resetData) {
                         HStack {
                             Label("Reset All Data", systemImage: "trash.circle.fill")
@@ -282,7 +303,7 @@ struct SettingsPopoverView: View {
                                 .foregroundStyle(.secondary)
                         }
                     }
-                    .disabled(isResetting)  // ✅ ADDED
+                    .disabled(isResetting)  // Prevent multiple resets
                 } header: {
                     HStack {
                         Image(systemName: "info.circle.fill")
@@ -320,6 +341,7 @@ struct SettingsPopoverView: View {
     // MARK: - Helper Methods
     
     /// Test notification functionality
+    /// Sends a test notification to verify that notifications are working correctly
     private func testNotification() {
         guard !isTesting else { return }
         isTesting = true
@@ -374,6 +396,7 @@ struct SettingsPopoverView: View {
     }
     
     /// Schedule a demo reminder (5 minutes from now)
+    /// Used to demonstrate notification scheduling functionality
     private func scheduleDemoReminder() {
         let content = UNMutableNotificationContent()
         content.title = "⏰ Demo Reminder"
@@ -400,7 +423,7 @@ struct SettingsPopoverView: View {
         }
     }
     
-    /// Clear all notifications
+    /// Clear all notifications and badge count
     private func clearNotifications() {
         NotificationManager.shared.clearAllDeliveredNotifications()
         NotificationManager.shared.cancelAllNotifications()
@@ -410,13 +433,15 @@ struct SettingsPopoverView: View {
     }
     
     /// Reset onboarding to show again
+    /// Sets the onboarding flag to false so it appears on next launch
     private func resetOnboarding() {
         UserDefaults.standard.set(false, forKey: "hasSeenOnboarding")
         testAlertMessage = "✅ Onboarding will show on next app launch!"
         showingTestAlert = true
     }
     
-    /// Reset all data - ✅ FINAL FIX
+    /// Reset all data and reload sample workouts
+    /// Shows a confirmation alert before performing the reset
     private func resetData() {
         // Prevent multiple resets
         guard !isResetting else { return }
@@ -459,6 +484,7 @@ struct SettingsPopoverView: View {
 }
 
 // MARK: - Theme Option Button
+/// Reusable theme selection button with visual feedback
 struct ThemeOptionButton: View {
     let theme: SettingsStore.Theme
     let currentTheme: SettingsStore.Theme
@@ -467,6 +493,7 @@ struct ThemeOptionButton: View {
     let color: Color
     let action: () -> Void
     
+    /// Whether this theme option is currently selected
     var isSelected: Bool {
         theme == currentTheme
     }

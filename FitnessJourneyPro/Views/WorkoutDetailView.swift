@@ -1,26 +1,46 @@
-//
+//  ===============================================
 //  WorkoutDetailView.swift
 //  FitnessJourneyPro
-//
+
 //  Created by Sheikh Naim on 2026-06-23.
-//  🎨 Enhanced with beautiful detail design
-//  🔧 Added Timer-Based Progress & Fixed Badge Layout
-//
+
+//  Enhanced with beautiful detail design
+//  Added Timer-Based Progress & Fixed Badge Layout
+//  ===============================================
 
 import SwiftUI
 
+// MARK: - WorkoutDetailView
+/// Detailed view showing complete workout information
+/// Displays workout details, progress, and action buttons
 struct WorkoutDetailView: View {
+    /// The workout being displayed (bindable for updates)
     @Binding var workout: Workout
+    
+    /// Callback for when the workout is deleted
     let onDelete: () -> Void
     
+    // MARK: - Environment Objects
+    /// Access to the workout store for updates
     @EnvironmentObject var workoutStore: WorkoutStore
+    
+    /// Access to user settings for display preferences
     @EnvironmentObject var settingsStore: SettingsStore
     
+    // MARK: - State Variables
+    /// Controls the delete confirmation alert
     @State private var showingDeleteAlert = false
+    
+    /// Controls the edit sheet presentation
     @State private var showingEditSheet = false
+    
+    /// Tracks if the workout timer is running
     @State private var isTimerRunning = false
+    
+    /// Current progress of the active workout timer
     @State private var timerProgress: Double = 0.0
     
+    // MARK: - Body
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -75,7 +95,8 @@ struct WorkoutDetailView: View {
         }
     }
     
-    // MARK: - Header Section - ✅ FIXED: Badges Centered
+    // MARK: - Header Section
+    /// Displays the workout icon, name, and status badges
     @ViewBuilder
     private var headerSection: some View {
         VStack(spacing: 16) {
@@ -104,7 +125,7 @@ struct WorkoutDetailView: View {
                 .font(.largeTitle.bold())
                 .multilineTextAlignment(.center)
             
-            // ✅ FIXED: Badges centered with flexible layout
+            // Badges centered with flexible layout
             HStack(spacing: 8) {
                 // Category Badge
                 HStack(spacing: 4) {
@@ -171,7 +192,6 @@ struct WorkoutDetailView: View {
                     .clipShape(Capsule())
                 }
             }
-            // ✅ FIXED: Center the HStack
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.horizontal, 8)
         }
@@ -185,6 +205,7 @@ struct WorkoutDetailView: View {
     }
     
     // MARK: - Stats Grid
+    /// Displays key workout statistics in a grid layout
     @ViewBuilder
     private var statsGrid: some View {
         LazyVGrid(columns: [
@@ -229,6 +250,7 @@ struct WorkoutDetailView: View {
     }
     
     // MARK: - Details Section
+    /// Shows detailed workout information in a list format
     @ViewBuilder
     private var detailsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -258,6 +280,7 @@ struct WorkoutDetailView: View {
     }
     
     // MARK: - Progress Section
+    /// Displays workout progress with a circular progress bar
     @ViewBuilder
     private var progressSection: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -289,9 +312,11 @@ struct WorkoutDetailView: View {
     }
     
     // MARK: - Action Buttons
+    /// Provides interactive buttons for workout actions
     @ViewBuilder
     private var actionButtons: some View {
         VStack(spacing: 12) {
+            // Show Start Workout button only for pending workouts that are due
             if !workout.isCompleted && !workout.isActive && workout.date <= Date() {
                 Button {
                     startWorkout()
@@ -305,6 +330,7 @@ struct WorkoutDetailView: View {
                 .controlSize(.large)
             }
             
+            // Toggle completion status
             Button {
                 withAnimation(.spring()) {
                     workoutStore.toggleCompletion(workout)
@@ -324,6 +350,7 @@ struct WorkoutDetailView: View {
             .tint(workout.isCompleted ? .orange : .green)
             .controlSize(.large)
             
+            // Delete button
             Button(role: .destructive) {
                 showingDeleteAlert = true
             } label: {
@@ -337,6 +364,8 @@ struct WorkoutDetailView: View {
     }
     
     // MARK: - Helper Methods
+    
+    /// Starts the workout timer and updates the binding
     private func startWorkout() {
         workoutStore.startWorkoutTimer(for: workout)
         if let updatedWorkout = workoutStore.workouts.first(where: { $0.id == workout.id }) {
@@ -346,6 +375,7 @@ struct WorkoutDetailView: View {
 }
 
 // MARK: - Stat Box Component
+/// Reusable statistics box displaying an icon, value, and label
 struct StatBox: View {
     let icon: String
     let label: String
@@ -372,6 +402,7 @@ struct StatBox: View {
 }
 
 // MARK: - Detail Row Component
+/// Reusable detail row for displaying key-value pairs
 struct DetailRow: View {
     let icon: String
     let label: String
@@ -399,6 +430,7 @@ struct DetailRow: View {
 }
 
 // MARK: - Enhanced Circular Progress
+/// Circular progress ring with gradient and percentage label
 struct EnhancedCircularProgress: View {
     let progress: Double
     var size: CGFloat = 120
@@ -406,9 +438,11 @@ struct EnhancedCircularProgress: View {
     
     var body: some View {
         ZStack {
+            // Background ring
             Circle()
                 .stroke(Color.gray.opacity(0.15), lineWidth: lineWidth)
             
+            // Animated progress ring
             Circle()
                 .trim(from: 0, to: min(progress, 1.0))
                 .stroke(
@@ -423,6 +457,7 @@ struct EnhancedCircularProgress: View {
                 .rotationEffect(.degrees(-90))
                 .animation(.easeInOut(duration: 0.5), value: progress)
             
+            // Percentage label
             Text("\(Int(progress * 100))%")
                 .font(.title2.bold())
                 .foregroundStyle(progress >= 1.0 ? .green : .primary)

@@ -1,39 +1,60 @@
-//
+//  ====================================================================================
 //  ContentView.swift
 //  FitnessJourneyPro
-//
+
 //  Created by Sheikh Naim on 2026-06-23.
-//  Assignment: iOSApp4 - iPad Fitness Tracker
+
 //  Features: NavigationSplitView, EnvironmentObject, Sheets, Popovers, Hover Animations
 //  Topics: iPad Layout, Modal Presentations, State Management, Gestures
-//  🎨 Enhanced with beautiful UI design
-//  🔧 Fixed: WorkoutDetailView now uses @Binding for proper updates
-//
+//  Enhanced with beautiful UI design
+//  WorkoutDetailView now uses @Binding for proper updates
+//  ====================================================================================
 
 import SwiftUI
 
 // MARK: - ContentView
+/// Main app view containing the split view navigation for iPad
+/// Uses NavigationSplitView with a sidebar list and detail view
 struct ContentView: View {
     
     // MARK: - Environment Objects
+    /// Access to the workout data store
     @EnvironmentObject var workoutStore: WorkoutStore
+    
+    /// Access to user settings and preferences
     @EnvironmentObject var settingsStore: SettingsStore
     
     // MARK: - State Variables
+    /// Currently selected workout in the sidebar
     @State private var selectedWorkout: Workout?
+    
+    /// Controls the add workout sheet
     @State private var showingAddWorkout = false
+    
+    /// Controls the quick add popover
     @State private var showingQuickAdd = false
+    
+    /// Controls the settings sheet
     @State private var showingSettings = false
+    
+    /// Controls the statistics sheet
     @State private var showingStats = false
     
     // MARK: - Hover States
+    /// Hover state for the add button (iPad pointer feedback)
     @State private var isHoveringAddButton = false
+    
+    /// Hover state for the statistics button
     @State private var isHoveringStatsButton = false
+    
+    /// Hover state for the settings button
     @State private var isHoveringSettingsButton = false
     
     // MARK: - Body
     var body: some View {
+        // MARK: - NavigationSplitView (iPad Split View)
         NavigationSplitView {
+            // MARK: Sidebar: Workout List
             WorkoutListView(
                 selectedWorkout: $selectedWorkout,
                 showingAddWorkout: $showingAddWorkout
@@ -43,6 +64,7 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     HStack(spacing: 16) {
+                        // MARK: - Statistics Button with Hover Animation
                         Button {
                             showingStats = true
                         } label: {
@@ -59,6 +81,7 @@ struct ContentView: View {
                         .scaleEffect(isHoveringStatsButton ? 1.15 : 1.0)
                         .accessibilityLabel("View Statistics")
                         
+                        // MARK: - Settings Button with Hover Animation
                         Button {
                             showingSettings = true
                         } label: {
@@ -75,6 +98,7 @@ struct ContentView: View {
                         .scaleEffect(isHoveringSettingsButton ? 1.15 : 1.0)
                         .accessibilityLabel("Open Settings")
                         
+                        // MARK: - Add Button with Gradient and Hover Animation
                         Button {
                             showingQuickAdd = true
                         } label: {
@@ -100,7 +124,9 @@ struct ContentView: View {
                 }
             }
         } detail: {
+            // MARK: Detail View: Selected Workout or Empty State
             if let workout = selectedWorkout {
+                // Create a binding to keep the detail view in sync with the store
                 let binding = Binding<Workout>(
                     get: { workout },
                     set: { updatedWorkout in
@@ -125,6 +151,7 @@ struct ContentView: View {
         .navigationSplitViewStyle(.balanced)
         .preferredColorScheme(settingsStore.colorScheme)
         
+        // MARK: - Sheets (for full-screen modals)
         .sheet(isPresented: $showingAddWorkout) {
             AddWorkoutView(isPresented: $showingAddWorkout)
                 .environmentObject(workoutStore)
@@ -140,6 +167,7 @@ struct ContentView: View {
                 .environmentObject(workoutStore)
         }
         
+        // MARK: - Popover (for quick actions)
         .popover(isPresented: $showingQuickAdd) {
             QuickAddWorkoutView(isPresented: $showingQuickAdd)
                 .environmentObject(workoutStore)
@@ -153,6 +181,7 @@ struct ContentView: View {
 }
 
 // MARK: - Enhanced Statistics View
+/// Comprehensive statistics dashboard with progress tracking
 struct EnhancedStatisticsView: View {
     @EnvironmentObject var workoutStore: WorkoutStore
     @Environment(\.dismiss) var dismiss
@@ -161,6 +190,7 @@ struct EnhancedStatisticsView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
+                    // MARK: - Header
                     VStack(spacing: 8) {
                         Text("📊 Your Fitness Stats")
                             .font(.largeTitle.bold())
@@ -170,6 +200,7 @@ struct EnhancedStatisticsView: View {
                     }
                     .padding(.top, 20)
                     
+                    // MARK: - Summary Cards
                     LazyVGrid(columns: [
                         GridItem(.flexible()),
                         GridItem(.flexible())
@@ -204,6 +235,7 @@ struct EnhancedStatisticsView: View {
                     }
                     .padding(.horizontal)
                     
+                    // MARK: - Progress Section
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Progress Overview")
                             .font(.title2.bold())
@@ -227,6 +259,7 @@ struct EnhancedStatisticsView: View {
                         .cornerRadius(16)
                         .padding(.horizontal)
                         
+                        // MARK: - Category Progress
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Category Breakdown")
                                 .font(.headline)
@@ -284,6 +317,7 @@ struct EnhancedStatisticsView: View {
 }
 
 // MARK: - Enhanced Stat Card
+/// Reusable statistics card with gradient background
 struct EnhancedStatCard: View {
     let title: String
     let value: String
@@ -319,6 +353,7 @@ struct EnhancedStatCard: View {
 }
 
 // MARK: - Enhanced Progress Bar
+/// Custom progress bar with gradient fill and percentage label
 struct EnhancedProgressBar: View {
     let progress: Double
     var height: CGFloat = 12
@@ -326,9 +361,11 @@ struct EnhancedProgressBar: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
+                // Background track
                 RoundedRectangle(cornerRadius: height / 2)
                     .fill(Color.gray.opacity(0.15))
                 
+                // Animated progress fill
                 RoundedRectangle(cornerRadius: height / 2)
                     .fill(
                         LinearGradient(
@@ -340,6 +377,7 @@ struct EnhancedProgressBar: View {
                     .frame(width: geometry.size.width * CGFloat(min(progress, 1.0)))
                     .animation(.easeInOut(duration: 0.8), value: progress)
                 
+                // Percentage label (only show when progress > 10%)
                 if progress > 0.1 {
                     Text("\(Int(progress * 100))%")
                         .font(.system(size: height * 0.6))
@@ -355,9 +393,11 @@ struct EnhancedProgressBar: View {
 }
 
 // MARK: - Enhanced Empty State View
+/// Shown when no workout is selected in the detail view
 struct EnhancedEmptyStateView: View {
     var body: some View {
         VStack(spacing: 24) {
+            // Animated gradient circle
             ZStack {
                 Circle()
                     .fill(
@@ -389,6 +429,7 @@ struct EnhancedEmptyStateView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
             
+            // Decorative dots
             HStack(spacing: 8) {
                 Circle()
                     .fill(Color.blue.opacity(0.6))

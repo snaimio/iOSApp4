@@ -1,16 +1,18 @@
-//
+//  ===========================================================
 //  ProgressBarView.swift
 //  FitnessJourneyPro
-//
+
 //  Created by [Your Name] on 2026-06-23.
+
 //  Linear progress bar with gradient fill
 //  Topics: GeometryReader, Animations, Gradients, Custom Views
-//
+//  ===========================================================
 
 import SwiftUI
 
 // MARK: - ProgressBar
 /// Linear progress bar with gradient fill and percentage label
+/// Uses GeometryReader for dynamic width calculation based on progress value
 struct ProgressBar: View {
     
     // MARK: - Properties
@@ -37,10 +39,12 @@ struct ProgressBar: View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 // MARK: - Background Track
+                /// Static background bar that fills the entire width
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .fill(backgroundColor)
                 
                 // MARK: - Progress Fill (Animated)
+                /// Animated progress fill that expands based on progress value
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .fill(
                         LinearGradient(
@@ -53,6 +57,7 @@ struct ProgressBar: View {
                     .animation(.easeInOut(duration: 0.8), value: progress)
                 
                 // MARK: - Percentage Label
+                /// Displays the progress percentage on top of the bar
                 if showLabel {
                     Text("\(Int(progress * 100))%")
                         .font(.subheadline.bold())

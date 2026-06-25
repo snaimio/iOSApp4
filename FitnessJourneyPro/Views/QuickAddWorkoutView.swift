@@ -1,31 +1,46 @@
-//
+//  ==================================================
 //  QuickAddWorkoutView.swift
 //  FitnessJourneyPro
-//
+
 //  Created by Sheikh Naim on 2026-06-23.
+
 //  Quick add workout popover
 //  Features: .popover(), attachmentAnchor, arrowEdge
 //  Topics: Popovers, Compact Forms, Quick Actions
-//
+//  ==================================================
 
 import SwiftUI
 
 // MARK: - QuickAddWorkoutView
 /// Compact popover view for quickly adding a workout
+/// Provides a simplified form for fast workout entry without leaving the current view
 struct QuickAddWorkoutView: View {
     
     // MARK: - Environment Objects
+    /// Access to the workout store for saving data
     @EnvironmentObject var workoutStore: WorkoutStore
+    
+    /// Environment variable to dismiss the view
     @Environment(\.dismiss) var dismiss
     
     // MARK: - Bindings
+    /// Controls whether the view is presented
     @Binding var isPresented: Bool
     
     // MARK: - State Variables
+    /// Name of the workout
     @State private var name = ""
+    
+    /// Selected workout category
     @State private var category = WorkoutCategory.cardio
+    
+    /// Duration in minutes (as Double for slider)
     @State private var duration = 30.0
+    
+    /// Selected intensity level
     @State private var intensity = Intensity.medium
+    
+    /// Scheduled date and time for the workout
     @State private var date = Date()
     
     // MARK: - Body
@@ -33,6 +48,7 @@ struct QuickAddWorkoutView: View {
         NavigationStack {
             Form {
                 // MARK: - Quick Add Form
+                /// Simplified form with essential fields only
                 Section("Quick Add") {
                     TextField("Workout Name", text: $name)
                         .textInputAutocapitalization(.words)
@@ -90,6 +106,8 @@ struct QuickAddWorkoutView: View {
     }
     
     // MARK: - Helper Methods
+    
+    /// Saves the workout to the store and dismisses the view
     private func saveWorkout() {
         let workout = Workout(
             name: name.trimmingCharacters(in: .whitespacesAndNewlines),

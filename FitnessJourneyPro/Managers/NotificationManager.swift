@@ -1,15 +1,12 @@
-//  ===============================================================
-
+//  ==============================================================
 //  NotificationManager.swift
 //  FitnessJourneyPro
 
 //  Created by Sheikh Naim on 2026-06-23.
 
-
 //  Features: UNUserNotificationCenter, Notifications, Permissions
 //  Topics: Notifications, Permissions, Background Tasks
-
-//  ===============================================================
+//  ==============================================================
 
 import Foundation
 import UserNotifications
@@ -36,10 +33,12 @@ class NotificationManager {
         case achievement = "ACHIEVEMENT"
         case test = "TEST_NOTIFICATION"
         
+        /// Unique identifier for the notification category
         var identifier: String {
             return rawValue
         }
         
+        /// Display title for the notification based on category
         var title: String {
             switch self {
             case .workoutReminder: return "💪 Workout Reminder"
@@ -49,6 +48,7 @@ class NotificationManager {
             }
         }
         
+        /// Notification sound based on category importance
         var sound: UNNotificationSound {
             switch self {
             case .workoutReminder: return .default
@@ -107,6 +107,7 @@ class NotificationManager {
     }
     
     /// Register notification categories with actions
+    /// Sets up custom actions for workout reminders (Complete, Postpone)
     private func registerNotificationCategories() {
         // Create actions for workout reminders
         let completeAction = UNNotificationAction(
@@ -195,7 +196,8 @@ class NotificationManager {
         }
     }
     
-    /// Schedule an immediate notification for a workout
+    /// Schedule an immediate notification for a workout (when the workout is already due)
+    /// - Parameter workout: The workout to notify about
     private func scheduleImmediateNotification(for workout: Workout) {
         let content = self.createNotificationContent(
             category: .workoutReminder,
@@ -221,7 +223,7 @@ class NotificationManager {
         }
     }
     
-    /// Schedule a motivational daily reminder
+    /// Schedule a motivational daily reminder at 8:00 AM
     func scheduleMotivationalReminder() {
         checkAuthorizationStatus { status in
             guard status == .authorized else {
@@ -259,7 +261,8 @@ class NotificationManager {
         }
     }
     
-    /// Schedule an achievement notification
+    /// Schedule an achievement notification when user unlocks a milestone
+    /// - Parameter achievement: The achievement name/description
     func scheduleAchievementNotification(achievement: String) {
         checkAuthorizationStatus { status in
             guard status == .authorized else { return }
@@ -289,7 +292,10 @@ class NotificationManager {
         }
     }
     
-    /// Schedule a weekly summary notification
+    /// Schedule a weekly summary notification on Sunday at 8:00 PM
+    /// - Parameters:
+    ///   - workoutCount: Number of workouts completed this week
+    ///   - totalMinutes: Total minutes spent on workouts this week
     func scheduleWeeklySummary(workoutCount: Int, totalMinutes: Int) {
         checkAuthorizationStatus { status in
             guard status == .authorized else { return }
@@ -328,6 +334,12 @@ class NotificationManager {
     // MARK: - Notification Content Creation
     
     /// Create notification content with common settings
+    /// - Parameters:
+    ///   - category: The notification category
+    ///   - title: Notification title
+    ///   - body: Notification body text
+    ///   - userInfo: Additional data for the notification
+    /// - Returns: Configured UNMutableNotificationContent
     private func createNotificationContent(
         category: NotificationCategory,
         title: String,
@@ -369,6 +381,7 @@ class NotificationManager {
     }
     
     /// Get all pending notifications
+    /// - Parameter completion: Completion handler with the pending notification requests
     func getPendingNotifications(completion: @escaping ([UNNotificationRequest]) -> Void) {
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
             DispatchQueue.main.async {
@@ -378,6 +391,7 @@ class NotificationManager {
     }
     
     /// Get all delivered notifications
+    /// - Parameter completion: Completion handler with the delivered notifications
     func getDeliveredNotifications(completion: @escaping ([UNNotification]) -> Void) {
         UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
             DispatchQueue.main.async {
@@ -386,12 +400,13 @@ class NotificationManager {
         }
     }
     
-    /// Remove a delivered notification
+    /// Remove a delivered notification by identifier
+    /// - Parameter identifier: The notification identifier to remove
     func removeDeliveredNotification(identifier: String) {
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [identifier])
     }
     
-    /// Clear all delivered notifications
+    /// Clear all delivered notifications and reset badge count
     func clearAllDeliveredNotifications() {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         // Use setBadgeCount to clear badge
@@ -442,6 +457,7 @@ class NotificationManager {
     // MARK: - App Delegate Integration
     
     /// Handle notification response from app delegate
+    /// - Parameter response: The user's response to a notification
     func handleNotificationResponse(_ response: UNNotificationResponse) {
         let userInfo = response.notification.request.content.userInfo
         
@@ -468,7 +484,7 @@ class NotificationManager {
     
     // MARK: - UI Application Delegate Methods
     
-    /// Register for remote notifications - ✅ FIXED for simulator
+    /// Register for remote notifications - skips on simulator
     func registerForRemoteNotifications() {
         #if targetEnvironment(simulator)
         // Skip remote notification registration on simulator
@@ -478,7 +494,7 @@ class NotificationManager {
         #endif
     }
     
-    /// Unregister from remote notifications - ✅ FIXED for simulator
+    /// Unregister from remote notifications - skips on simulator
     func unregisterForRemoteNotifications() {
         #if targetEnvironment(simulator)
         print("ℹ️ Running on simulator - skipping remote notification unregistration")

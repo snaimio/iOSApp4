@@ -1,21 +1,31 @@
-//
+//  ======================================================================
 //  OnboardingView.swift
 //  FitnessJourneyPro
-//
+
 //  Created by Sheikh Naim on 2026-06-24.
+
 //  Professional Onboarding flow for new users
 //  Features: Glassmorphism, Parallax, Animated Gradients, Professional UI
-//
+//  ======================================================================
 
 import SwiftUI
 
 // MARK: - OnboardingView
+/// Main onboarding flow view displayed to new users
+/// Features animated backgrounds, glassmorphism effects, and page navigation
 struct OnboardingView: View {
     
     // MARK: - Properties
+    /// Stores whether the user has seen the onboarding flow
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
+    
+    /// Current page index
     @State private var currentPage = 0
+    
+    /// Controls various animations throughout the onboarding
     @State private var isAnimating = false
+    
+    /// Tracks drag gesture offset for parallax effect
     @State private var dragOffset: CGFloat = 0
     
     // MARK: - Body
@@ -160,6 +170,7 @@ struct OnboardingView: View {
 }
 
 // MARK: - Animated Background
+/// Dynamic animated background with floating gradient orbs
 struct AnimatedBackground: View {
     @State private var animate = false
     
@@ -221,6 +232,7 @@ struct AnimatedBackground: View {
 }
 
 // MARK: - Professional Onboarding Page
+/// Individual onboarding page with glassmorphism effects and animations
 struct ProfessionalOnboardingPage: View {
     let item: OnboardingItem
     let isLast: Bool
@@ -328,6 +340,7 @@ struct ProfessionalOnboardingPage: View {
 }
 
 // MARK: - Professional Onboarding Item
+/// Provides professional onboarding content with modern design
 extension OnboardingItem {
     static let professionalItems: [OnboardingItem] = [
         OnboardingItem(

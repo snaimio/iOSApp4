@@ -280,7 +280,7 @@ struct SettingsPopoverView: View {
                             .foregroundStyle(.secondary)
                     }
                     
-                    // MARK: - Reset Onboarding Button
+                    // MARK: - Reset Onboarding Button - ✅ FIXED
                     Button(action: resetOnboarding) {
                         HStack {
                             Label("Show Onboarding Again", systemImage: "arrow.counterclockwise.circle.fill")
@@ -303,18 +303,15 @@ struct SettingsPopoverView: View {
                                 .foregroundStyle(.secondary)
                         }
                     }
-                    .disabled(isResetting)  // Prevent multiple resets
+                    .disabled(isResetting)
                 } header: {
                     HStack {
                         Image(systemName: "info.circle.fill")
                             .foregroundStyle(.blue)
                         Text("About")
                     }
-                } footer: {
-                    Text("Made with ❤️ for Fitness Journey Pro")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
                 }
+                // ✅ footer: REMOVED
             }
             .listStyle(.insetGrouped)
             .navigationTitle("Settings")
@@ -437,6 +434,7 @@ struct SettingsPopoverView: View {
     private func resetOnboarding() {
         UserDefaults.standard.set(false, forKey: "hasSeenOnboarding")
         testAlertMessage = "✅ Onboarding will show on next app launch!"
+        // Force the alert to stay visible
         showingTestAlert = true
     }
     

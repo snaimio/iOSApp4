@@ -1,6 +1,6 @@
 # 🏋️ Fitness Journey Pro
 
-> A comprehensive iPad fitness tracker app built with SwiftUI for iOS App Development Assignment 4.
+> A comprehensive iPad fitness tracker app built with SwiftUI for iOS App Development Assignment 6.
 
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
 [![iOS](https://img.shields.io/badge/iOS-17.0+-blue.svg)](https://apple.com)
